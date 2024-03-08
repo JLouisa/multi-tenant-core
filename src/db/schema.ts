@@ -7,6 +7,12 @@ import {
   uniqueIndex,
   text,
 } from "drizzle-orm/pg-core";
+import {
+  InferColumnsDataTypes,
+  InferInsertModel,
+  InferModelFromColumns,
+  InferSelectModel,
+} from "drizzle-orm";
 
 export const applications = pgTable("applications", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
@@ -14,6 +20,8 @@ export const applications = pgTable("applications", {
   createAt: timestamp("create_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+export type ApplicationsSchemaInsertT = InferInsertModel<typeof applications>;
+export type ApplicationsSchemaSelectT = InferSelectModel<typeof applications>;
 
 export const users = pgTable(
   "users",
@@ -35,6 +43,7 @@ export const users = pgTable(
     };
   }
 );
+export type UsersSchemaT = InferInsertModel<typeof users>;
 
 export const roles = pgTable(
   "roles",
@@ -44,7 +53,7 @@ export const roles = pgTable(
     applicationId: uuid("applications_id")
       .references(() => applications.id)
       .notNull(),
-    permissions: text("permissions").array().$type<Array<String>>().notNull(),
+    permissions: text("permissions").array().$type<string[]>().notNull(),
     createAt: timestamp("create_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
@@ -55,6 +64,7 @@ export const roles = pgTable(
     };
   }
 );
+export type RolesSchemaT = InferInsertModel<typeof roles>;
 
 export const usersToRoles = pgTable(
   "users_to_roles",
@@ -79,3 +89,4 @@ export const usersToRoles = pgTable(
     };
   }
 );
+export type UsersToRolesSchemaT = InferInsertModel<typeof usersToRoles>;
