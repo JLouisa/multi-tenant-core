@@ -1,6 +1,9 @@
 import { FastifyInstance } from "fastify";
 import { createApplicationsBodyJSONSchema } from "./applications.schema";
-import { createApplicationsHandler } from "./applications.controllers";
+import {
+  createApplicationsHandler,
+  getApplicationsHandler,
+} from "./applications.controllers";
 
 export async function applicationsRoutes(app: FastifyInstance) {
   app.post(
@@ -11,7 +14,5 @@ export async function applicationsRoutes(app: FastifyInstance) {
     createApplicationsHandler
   );
 
-  app.get("/applications", async (request, reply) => {
-    // create an application
-  });
+  app.get("/", getApplicationsHandler);
 }

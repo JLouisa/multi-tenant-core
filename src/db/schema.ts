@@ -7,12 +7,7 @@ import {
   uniqueIndex,
   text,
 } from "drizzle-orm/pg-core";
-import {
-  InferColumnsDataTypes,
-  InferInsertModel,
-  InferModelFromColumns,
-  InferSelectModel,
-} from "drizzle-orm";
+import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 export const applications = pgTable("applications", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
@@ -43,7 +38,8 @@ export const users = pgTable(
     };
   }
 );
-export type UsersSchemaT = InferInsertModel<typeof users>;
+export type UsersSchemaInsertT = InferInsertModel<typeof users>;
+export type UsersSchemaSelectT = InferSelectModel<typeof users>;
 
 export const roles = pgTable(
   "roles",
