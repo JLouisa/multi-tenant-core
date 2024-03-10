@@ -1,8 +1,27 @@
-import { InferInsertModel } from "drizzle-orm";
+import { eq, and, InferInsertModel } from "drizzle-orm";
 import { db } from "../../db";
-import { roles, RolesSchemaT } from "../../db/schema";
+import { roles, RolesSchemaInsertT } from "../../db/schema";
 
-export async function createRole(data: RolesSchemaT) {
+export async function createRole(data: RolesSchemaInsertT) {
   const result = await db.insert(roles).values(data).returning();
+  return result[0];
+}
+
+export async function getRoleByName({
+  name,
+  applicationId,
+}: {
+  name: string;
+  applicationId: string;
+}) {
+  const result = await db
+    // SELECT *
+    .select()
+    // FROM roles
+    .from(roles)
+    // WHERE name = $1 AND applicationId = $2
+    .where(and(eq(roles.name, name), eq(roles.applicationId, applicationId)))
+    .limit(1);
+
   return result[0];
 }

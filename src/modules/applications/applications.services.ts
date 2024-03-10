@@ -20,7 +20,7 @@ export async function getApplications() {
     .select({
       id: applications.id,
       name: applications.name,
-      createdAt: applications.createAt,
+      createdAt: applications.createdAt,
     })
     .from(applications);
 

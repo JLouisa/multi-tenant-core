@@ -12,7 +12,7 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 export const applications = pgTable("applications", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 256 }).notNull(),
-  createAt: timestamp("create_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 export type ApplicationsSchemaInsertT = InferInsertModel<typeof applications>;
@@ -23,12 +23,12 @@ export const users = pgTable(
   {
     id: uuid("id").defaultRandom().notNull(),
     email: varchar("email", { length: 256 }).notNull(),
-    name: varchar("email", { length: 256 }).notNull(),
+    name: varchar("name", { length: 256 }).notNull(),
     applicationId: uuid("applications_id")
       .references(() => applications.id)
       .notNull(),
     password: varchar("password", { length: 256 }).notNull(),
-    createAt: timestamp("create_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
   (users) => {
@@ -50,7 +50,7 @@ export const roles = pgTable(
       .references(() => applications.id)
       .notNull(),
     permissions: text("permissions").array().$type<string[]>().notNull(),
-    createAt: timestamp("create_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
   (roles) => {
@@ -60,7 +60,8 @@ export const roles = pgTable(
     };
   }
 );
-export type RolesSchemaT = InferInsertModel<typeof roles>;
+export type RolesSchemaInsertT = InferInsertModel<typeof roles>;
+export type RolesSchemaSelectT = InferSelectModel<typeof roles>;
 
 export const usersToRoles = pgTable(
   "users_to_roles",
@@ -85,4 +86,5 @@ export const usersToRoles = pgTable(
     };
   }
 );
-export type UsersToRolesSchemaT = InferInsertModel<typeof usersToRoles>;
+export type UsersToRolesSchemaInsertT = InferInsertModel<typeof usersToRoles>;
+export type UsersToRolesSchemaSelectT = InferSelectModel<typeof usersToRoles>;
