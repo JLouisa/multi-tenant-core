@@ -8,5 +8,6 @@ export const env = zennv({
     HOST: z.string().default("0.0.0.0"),
     NODE_ENV: z.enum(["development", "production", "test"]),
     DATABASE_CONNECTION: z.string(),
+    JWT_SECRET: z.string(),
   }),
 });

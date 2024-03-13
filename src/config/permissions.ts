@@ -3,9 +3,14 @@ export const ALL_PERMISSIONS = [
   "users:roles:write", // Allowed to add a role to a user
   "users:roles:delete", // Allowed to remove a role from a user
 
+  // Roles
+  "roles:write", // Allowed to create a role
+
   // Post
   "post:write",
   "post:read",
+  "post:delete",
+  "post:edit-own",
 ] as const;
 
 export const PERMISSIONS = ALL_PERMISSIONS.reduce((acc, permission) => {
